@@ -2,3 +2,4 @@
 
 - [✔] Project Set-up
 - [✔] Device Init
+- [👨‍💻] Code structure fix
