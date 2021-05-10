@@ -56,6 +56,12 @@ struct WindowInfo
 	bool	windowed;
 };
 
+struct Vertex
+{
+	Vec3 pos;
+	Vec4 color;
+};
+
 #define DEVICE		GEngine->GetDevice()->GetDevice()
 #define CMD_LIST	GEngine->GetComdQueue()->GetCmdList()
 
