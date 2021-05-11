@@ -8,7 +8,9 @@ public:
 
 	// TODO: create Shader
 private:
-	void CreateShader(const wstring& path, const string& name, const string);
+	void CreateShader(const wstring& path, const string& name, const string& version, ComPtr<ID3DBlob>& blob, D3D12_SHADER_BYTECODE& shaderByteCode);
+	void CreateVertexShader(const wstring& path, const string& name, const string& version);
+	void CreatePixelShader(const wstring& path, const string& name, const string& version);
 
 private:
 	ComPtr<ID3DBlob>	_vsBlob;
