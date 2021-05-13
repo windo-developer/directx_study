@@ -4,8 +4,8 @@
 void Engine::Init(const WindowInfo& info)
 {
 	_window = info;
-	ResizeWindow(info.width, info.height);
 
+	// 화면 크기
 	_viewport = { 0, 0, static_cast<FLOAT>(info.width), static_cast<FLOAT>(info.height), 0.0f, 1.0f };
 	_scissorRect = CD3DX12_RECT(0, 0, info.width, info.height);
 
@@ -15,6 +15,8 @@ void Engine::Init(const WindowInfo& info)
 	_rootSignature = make_shared<RootSignature>();
 	_cb = make_shared<ConstantBuffer>();
 	_tableDescHeap = make_shared<TableDescriptorHeap>();
+	_depthStencilBuffer = make_shared<DepthStencilBuffer>();
+	_input = make_shared<Input>();
 
 	_device->Init();
 	_cmdQueue->Init(_device->GetDevice(), _swapChain);
@@ -22,6 +24,11 @@ void Engine::Init(const WindowInfo& info)
 	_rootSignature->Init();
 	_cb->Init(sizeof(Transform), 256);
 	_tableDescHeap->Init(256);
+	_depthStencilBuffer->Init(_window);
+
+	_input->Init(info.hwnd);
+
+	ResizeWindow(info.width, info.height);
 }
 
 void Engine::Render()
@@ -31,6 +38,11 @@ void Engine::Render()
 	//
 
 	RenderEnd();
+}
+
+void Engine::Update()
+{
+	_input->Update();
 }
 
 void Engine::RenderBegin()
@@ -51,4 +63,6 @@ void Engine::ResizeWindow(int32 width, int32 height)
 	RECT rect = { 0,0, width, height };
 	::AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
 	::SetWindowPos(_window.hwnd, 0, 100, 100, width, height, 0);
+
+	_depthStencilBuffer->Init(_window);
 }
