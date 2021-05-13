@@ -14,14 +14,20 @@ public:
 	void RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect);
 	void RenderEnd();
 
+	void FlushResourceCommandQueue();
+
 	ComPtr<ID3D12CommandQueue> GetcmdQueue() { return _cmdQueue; }
 	ComPtr<ID3D12GraphicsCommandList> GetCmdList() { return	_cmdList; }
+	ComPtr<ID3D12GraphicsCommandList> GetResoureceCmdList() { return _resCmdList; }
 
 private:
 	// 작업 목록 (commandQueue)
 	ComPtr<ID3D12CommandQueue>			_cmdQueue;
 	ComPtr<ID3D12CommandAllocator>		_cmdAlloc;
 	ComPtr<ID3D12GraphicsCommandList>	_cmdList;
+
+	ComPtr<ID3D12CommandAllocator>		_resCmdAlloc;
+	ComPtr<ID3D12GraphicsCommandList>	_resCmdList;
 
 	//CPU, GPU 동기화
 	ComPtr<ID3D12Fence>	_fence;

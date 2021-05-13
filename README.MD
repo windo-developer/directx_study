@@ -12,3 +12,7 @@
 ## Buffer, TableDescriptor
 - [✔] Constant Buffer
 - [✔] Table Descriptor Heap
+
+## Texture
+Using this Libary: https://github.com/microsoft/DirectXTex   
+- [✔] Texture Mapping
