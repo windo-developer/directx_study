@@ -18,4 +18,9 @@ Using this Libary: https://github.com/microsoft/DirectXTex
 - [✔] Texture Mapping
 
 ## DepthStencil
-- [] DepthStencil Buffer
+- [✔] DepthStencil Buffer
+
+## Input & Timer
+- [✔] Input Key
+- [✔] Timer (FPS)
+
