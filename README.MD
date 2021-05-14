@@ -24,3 +24,9 @@ Using this Libary: https://github.com/microsoft/DirectXTex
 - [✔] Input Key
 - [✔] Timer (FPS)
 
+## Material
+merge for Mesh, Shader, Texture
+- [✔] Material   
+
+
+
