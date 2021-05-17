@@ -29,11 +29,13 @@ merge for Mesh, Shader, Texture
 - [✔] Material   
 
 ## Component
-copy unity pattern
-- [] Component
+copy unity pattern (Component pattern)
+- [✔] Component
 
 ## Scene
-- [] Scene
+Split Engine and Client function   
+Add Engine Manager
+- [✔] Scene
 
 
 

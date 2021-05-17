@@ -2,6 +2,9 @@
 #include "Engine.h"
 #include "Material.h"
 #include "Transform.h"
+#include "Input.h"
+#include "Timer.h"
+#include "SceneManager.h"
 
 void Engine::Init(const WindowInfo& info)
 {
@@ -18,9 +21,6 @@ void Engine::Init(const WindowInfo& info)
 	_tableDescHeap = make_shared<TableDescriptorHeap>();
 	_depthStencilBuffer = make_shared<DepthStencilBuffer>();
 
-	_input = make_shared<Input>();
-	_timer = make_shared<Timer>();
-
 	_device->Init();
 	_cmdQueue->Init(_device->GetDevice(), _swapChain);
 	_swapChain->Init(info, _device->GetDevice(), _device->GetDXGI(), _cmdQueue->GetcmdQueue());
@@ -28,28 +28,32 @@ void Engine::Init(const WindowInfo& info)
 	_tableDescHeap->Init(256);
 	_depthStencilBuffer->Init(_window);
 
-	_input->Init(info.hwnd);
-	_timer->Init();
-
 	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(TransformMatrix), 256);
 	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(MaterialParams), 256);
 
 	ResizeWindow(info.width, info.height);
+
+	GET_SINGLE(Input)->Init(info.hwnd);
+	GET_SINGLE(Timer)->Init();
+}
+
+void Engine::Update()
+{
+	GET_SINGLE(Input)->Update();
+	GET_SINGLE(Timer)->Update();
+
+	Render();
+
+	ShowFps();
 }
 
 void Engine::Render()
 {
 	RenderBegin();
 
-	//
+	GET_SINGLE(SceneManager)->Update();
 
 	RenderEnd();
-}
-
-void Engine::Update()
-{
-	_input->Update();
-	_timer->Update();
 }
 
 void Engine::RenderBegin()
@@ -76,7 +80,7 @@ void Engine::ResizeWindow(int32 width, int32 height)
 
 void Engine::ShowFps()
 {
-	uint32 fps = _timer->GetFps();
+	uint32 fps = GET_SINGLE(Timer)->GetFps();
 
 	WCHAR text[100] = L"";
 	::wsprintf(text, L"FPS : %d", fps);
