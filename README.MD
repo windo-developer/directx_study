@@ -28,5 +28,13 @@ Using this Libary: https://github.com/microsoft/DirectXTex
 merge for Mesh, Shader, Texture
 - [✔] Material   
 
+## Component
+copy unity pattern
+- [] Component
+
+## Scene
+- [] Scene
+
+
 
 
