@@ -17,6 +17,7 @@ public:
 	void Start();
 	void Update();
 	void LateUpdate();
+	void FinallUpdate();
 
 	shared_ptr<Transform> GetTransform();
 
@@ -26,4 +27,3 @@ private:
 	array<shared_ptr<Component>, FIXED_COMPOENT_COUNT> _compoents;
 	vector<shared_ptr<MonoBehaviour>> _script;
 };
-

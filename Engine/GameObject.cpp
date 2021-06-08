@@ -73,6 +73,15 @@ void GameObject::LateUpdate()
 	}
 }
 
+void GameObject::FinallUpdate()
+{
+	for (shared_ptr<Component>& compoent : _compoents)
+	{
+		if (compoent)
+			compoent->FinallUpdate();
+	}
+}
+
 shared_ptr<Transform> GameObject::GetTransform()
 {
 	uint8 index = static_cast<uint8>(COMPONENT_TYPE::TRANSFORM);

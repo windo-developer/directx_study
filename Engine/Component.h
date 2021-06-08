@@ -8,7 +8,7 @@ enum class COMPONENT_TYPE : uint8
 	END,
 };
 
-enum 
+enum
 {
 	FIXED_COMPOENT_COUNT = static_cast<uint8>(COMPONENT_TYPE::END) - 1
 };
@@ -27,6 +27,7 @@ public:
 	virtual void Start() {}
 	virtual void Update() {}
 	virtual void LateUpdate() {}
+	virtual void FinallUpdate() {}
 
 public:
 	COMPONENT_TYPE GetType() { return _type; }
@@ -43,4 +44,3 @@ protected:
 	COMPONENT_TYPE _type;
 	weak_ptr<GameObject> _gameObject;
 };
-

@@ -14,6 +14,7 @@ void SceneManager::Update()
 
 	_activeScene->Update();
 	_activeScene->LateUpdate();
+	_activeScene->FinallUpdate();
 }
 
 void SceneManager::LoadScene(wstring sceneName)
@@ -29,7 +30,6 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 	shared_ptr<Scene> scene = make_shared<Scene>();
 
 	shared_ptr<GameObject> gameObject = make_shared<GameObject>();
-
 
 	/*vector<Vertex> vec(6);
 	vec[0].pos = Vec3(-0.5f, 0.5f, 0.5f);

@@ -9,6 +9,7 @@ public:
 	void Start();
 	void Update();
 	void LateUpdate();
+	void FinallUpdate();
 
 	void AddGameObejct(shared_ptr<GameObject> gameObject);
 	void RemoveGameObject(shared_ptr<GameObject> gameObject);
@@ -16,4 +17,3 @@ public:
 private:
 	vector<shared_ptr<GameObject>> _gameObjects;
 };
-
