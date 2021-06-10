@@ -8,6 +8,7 @@
 #include "MeshRenderer.h"
 #include "Transform.h"
 #include "Camera.h"
+#include "TestCameraScript.h"
 
 void SceneManager::Update()
 {
@@ -129,7 +130,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 	shared_ptr<GameObject> camera = make_shared<GameObject>();
 	camera->AddComponent(make_shared<Transform>());
 	camera->AddComponent(make_shared<Camera>()); // near = 1, far = 1000, fov = 45 (defulat setting)
-	// camera->AddComponent(make_shared<Transform>())
+	camera->AddComponent(make_shared<TestCameraScript>());
 	camera->GetTransform()->SetLocalPosition(Vec3(0.f, 100.f, 0.f));
 	scene->AddGameObejct(camera);
 #pragma endregion

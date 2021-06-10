@@ -39,7 +39,7 @@ public:
 
 private:
 	friend class GameObject;
-	void SetGameObjct(shared_ptr<GameObject> gameObejct) { _gameObject = gameObejct; }
+	void SetGameObject(shared_ptr<GameObject> gameObject) { _gameObject = gameObject; }
 
 protected:
 	COMPONENT_TYPE _type;

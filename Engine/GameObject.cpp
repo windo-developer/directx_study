@@ -105,7 +105,7 @@ shared_ptr<Camera> GameObject::GetCamera()
 
 void GameObject::AddComponent(shared_ptr<Component> component)
 {
-	component->SetGameObjct(shared_from_this());
+	component->SetGameObject(shared_from_this());
 
 	uint8 index = static_cast<uint8>(component->GetType());
 	if (index < FIXED_COMPOENT_COUNT)
