@@ -37,6 +37,14 @@ Split Engine and Client function
 Add Engine Manager
 - [✔] Scene
 
+## Camera
+import Microsoft DX12 Math(Toolkit)      
+https://github.com/microsoft/DirectXTK12
+- [✔] Matrix
+- [✔] Projection
+
+## Resource Manager
+- [ ] Object manage
 
 
 
