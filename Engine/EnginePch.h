@@ -99,21 +99,27 @@ struct WindowInfo
 
 struct Vertex
 {
+	Vertex() {}
+
+	Vertex(Vec3 p, Vec2 u, Vec3 n, Vec3 t) : pos(p), uv(u), normal(n), tangent(t)
+	{
+	}
 	Vec3 pos;
-	Vec4 color;
 	Vec2 uv;
+	Vec3 normal;
+	Vec3 tangent;
 };
 
 #define DECLARE_SINGLE(type)	\
-private:	\
-	type() {}\
-	~type() {}\
-public:\
-	static type* GetInstance()\
-	{\
-		static type instance;\
-		return &instance;\
-	}\
+private:						\
+	type() {}					\
+	~type() {}					\
+public:							\
+	static type* GetInstance()	\
+	{							\
+		static type instance;	\
+		return &instance;		\
+	}							\
 
 #define GET_SINGLE(type)	type::GetInstance()
 
