@@ -44,7 +44,12 @@ https://github.com/microsoft/DirectXTK12
 - [✔] Projection
 
 ## Resource Manager
-- [ ] Object manage
+- [✔] Object manage
 
+## Lighting 
+- [] Light Render
+- [] Skybox 
+
+## Render
 
 
