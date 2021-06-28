@@ -36,6 +36,7 @@ struct LightParams
 
 class Light : public Component
 {
+public:
 	Light();
 	virtual ~Light();
 
@@ -57,4 +58,3 @@ public:
 private:
 	LightInfo _lightInfo = {};
 };
-

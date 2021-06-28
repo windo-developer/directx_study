@@ -2,12 +2,13 @@
 #define _DEFAULT_HLSLI_
 
 #include "params.hlsli"
+#include "utils.hlsli"
 
 struct VS_IN
 {
 	float3 pos : POSITION;
 	float2 uv : TEXCOORD;
-	float3 noraml : NORMAL;
+	float3 normal : NORMAL;
 };
 
 struct VS_OUT

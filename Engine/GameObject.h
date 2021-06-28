@@ -30,5 +30,5 @@ public:
 
 private:
 	array<shared_ptr<Component>, FIXED_COMPOENT_COUNT> _compoents;
-	vector<shared_ptr<MonoBehaviour>> _script;
+	vector<shared_ptr<MonoBehaviour>> _scripts;
 };
