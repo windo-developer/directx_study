@@ -4,14 +4,13 @@
 
 Light::Light() : Component(COMPONENT_TYPE::LIGHT)
 {
-
 }
 
 Light::~Light()
 {
 }
 
-void Light::FinallUpdate()
+void Light::FinalUpdate()
 {
 	_lightInfo.position = GetTransform()->GetWorldPosition();
 }

@@ -20,3 +20,4 @@ private:
 private:
 	shared_ptr<Scene> _activeScene;
 };
+

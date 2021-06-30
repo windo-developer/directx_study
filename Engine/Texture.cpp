@@ -4,10 +4,12 @@
 
 Texture::Texture() : Object(OBJECT_TYPE::TEXTURE)
 {
+
 }
 
 Texture::~Texture()
 {
+
 }
 
 void Texture::Init(const wstring& path)
@@ -18,14 +20,14 @@ void Texture::Init(const wstring& path)
 
 void Texture::CreateTexture(const wstring& path)
 {
-	// (텍스처) 파일 확장자 확인
+	// 파일 확장자 얻기
 	wstring ext = fs::path(path).extension();
 
-	if (ext == L".dds" || ext == L".DOS")
+	if (ext == L".dds" || ext == L".DDS")
 		::LoadFromDDSFile(path.c_str(), DDS_FLAGS_NONE, nullptr, _image);
 	else if (ext == L".tga" || ext == L".TGA")
 		::LoadFromTGAFile(path.c_str(), nullptr, _image);
-	else
+	else // png, jpg, jpeg, bmp
 		::LoadFromWICFile(path.c_str(), WIC_FLAGS_NONE, nullptr, _image);
 
 	HRESULT hr = ::CreateTexture(DEVICE.Get(), _image.GetMetadata(), &_tex2D);
@@ -38,8 +40,7 @@ void Texture::CreateTexture(const wstring& path)
 		_image.GetImages(),
 		_image.GetImageCount(),
 		_image.GetMetadata(),
-		subResources
-	);
+		subResources);
 
 	if (FAILED(hr))
 		assert(nullptr);
@@ -56,8 +57,7 @@ void Texture::CreateTexture(const wstring& path)
 		&desc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(textureUploadHeap.GetAddressOf())
-	);
+		IID_PPV_ARGS(textureUploadHeap.GetAddressOf()));
 
 	if (FAILED(hr))
 		assert(nullptr);
@@ -67,8 +67,7 @@ void Texture::CreateTexture(const wstring& path)
 		textureUploadHeap.Get(),
 		0, 0,
 		static_cast<unsigned int>(subResources.size()),
-		subResources.data()
-	);
+		subResources.data());
 
 	GEngine->GetCmdQueue()->FlushResourceCommandQueue();
 }

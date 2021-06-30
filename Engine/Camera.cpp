@@ -18,7 +18,7 @@ Camera::~Camera()
 {
 }
 
-void Camera::FinallUpdate()
+void Camera::FinalUpdate()
 {
 	_matView = GetTransform()->GetLocalToWorldMatrix().Invert();
 
@@ -38,6 +38,7 @@ void Camera::Render()
 {
 	shared_ptr<Scene> scene = GET_SINGLE(SceneManager)->GetActiveScene();
 
+	// TODO : Layer ±¸ºÐ
 	const vector<shared_ptr<GameObject>>& gameObjects = scene->GetGameObjects();
 
 	for (auto& gameObject : gameObjects)

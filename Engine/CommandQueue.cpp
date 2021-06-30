@@ -18,36 +18,40 @@ void CommandQueue::Init(ComPtr<ID3D12Device> device, shared_ptr<SwapChain> swapC
 
 	device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&_cmdQueue));
 
-	// D3D12_COMMAND_LIST_TYPE_DIRECT = GPU가 실행할 명령 목록
 	device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&_cmdAlloc));
 	device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, _cmdAlloc.Get(), nullptr, IID_PPV_ARGS(&_cmdList));
-
-	// open 상태에서 close로 바꾸면서 넣었던 command 제출
 	_cmdList->Close();
 
 	device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&_resCmdAlloc));
 	device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, _resCmdAlloc.Get(), nullptr, IID_PPV_ARGS(&_resCmdList));
 
-	// CPU, GPU 동기화
+	// CreateFence
+	// - CPU와 GPU의 동기화 수단으로 쓰인다
 	device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&_fence));
 	_fenceEvent = ::CreateEvent(nullptr, FALSE, FALSE, nullptr);
 }
 
 void CommandQueue::WaitSync()
 {
-	// Queue 번호
+	// Advance the fence value to mark commands up to this fence point.
 	_fenceValue++;
 
+	// Add an instruction to the command queue to set a new fence point.  Because we 
+	// are on the GPU timeline, the new fence point won't be set until the GPU finishes
+	// processing all the commands prior to this Signal().
 	_cmdQueue->Signal(_fence.Get(), _fenceValue);
 
-	// 번호까지 처리가 끝나면 _fenceEvent 호출
+	// Wait until the GPU has completed commands up to this fence point.
 	if (_fence->GetCompletedValue() < _fenceValue)
 	{
+		// Fire event when GPU hits current fence.  
 		_fence->SetEventOnCompletion(_fenceValue, _fenceEvent);
 
+		// Wait until the GPU hits current fence event is fired.
 		::WaitForSingleObject(_fenceEvent, INFINITE);
 	}
 }
+
 
 void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect)
 {
@@ -56,8 +60,8 @@ void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect)
 
 	D3D12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
 		_swapChain->GetBackRTVBuffer().Get(),
-		D3D12_RESOURCE_STATE_PRESENT, // 화면 출력 용도 (현재 출력중)
-		D3D12_RESOURCE_STATE_RENDER_TARGET); // backbuffer 화면 결과로 대체
+		D3D12_RESOURCE_STATE_PRESENT, // 화면 출력
+		D3D12_RESOURCE_STATE_RENDER_TARGET); // 외주 결과물
 
 	_cmdList->SetGraphicsRootSignature(ROOT_SIGNATURE.Get());
 
@@ -71,10 +75,11 @@ void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect)
 
 	_cmdList->ResourceBarrier(1, &barrier);
 
+	// Set the viewport and scissor rect.  This needs to be reset whenever the command list is reset.
 	_cmdList->RSSetViewports(1, vp);
 	_cmdList->RSSetScissorRects(1, rect);
 
-	// backbuffer 전달
+	// Specify the buffers we are going to render to.
 	D3D12_CPU_DESCRIPTOR_HANDLE backBufferView = _swapChain->GetBackRTV();
 	_cmdList->ClearRenderTargetView(backBufferView, Colors::Black, 0, nullptr);
 
@@ -88,9 +93,8 @@ void CommandQueue::RenderEnd()
 {
 	D3D12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
 		_swapChain->GetBackRTVBuffer().Get(),
-		D3D12_RESOURCE_STATE_RENDER_TARGET,
-		D3D12_RESOURCE_STATE_PRESENT
-	);
+		D3D12_RESOURCE_STATE_RENDER_TARGET, // 외주 결과물
+		D3D12_RESOURCE_STATE_PRESENT); // 화면 출력
 
 	_cmdList->ResourceBarrier(1, &barrier);
 	_cmdList->Close();
@@ -101,7 +105,9 @@ void CommandQueue::RenderEnd()
 
 	_swapChain->Present();
 
-	// CPU가 대기
+	// Wait until frame commands are complete.  This waiting is inefficient and is
+	// done for simplicity.  Later we will show how to organize our rendering code
+	// so we do not have to wait per frame.
 	WaitSync();
 
 	_swapChain->SwapIndex();

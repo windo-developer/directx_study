@@ -18,7 +18,7 @@ public:
 	bool Add(const wstring& key, shared_ptr<T> object);
 
 	template<typename T>
-	shared_ptr<T> Get(const wstring& key);
+	shared_ptr<T> Get(const wstring& Key);
 
 	template<typename T>
 	OBJECT_TYPE GetObjectType();
@@ -27,7 +27,7 @@ public:
 	shared_ptr<Mesh> LoadSphereMesh();
 
 private:
-	using KeyObjMap = std::map<wstring, shared_ptr<Object>>;
+	using KeyObjMap = std::map<wstring/*key*/, shared_ptr<Object>>;
 	array<KeyObjMap, OBJECT_TYPE_COUNT> _resources;
 };
 
@@ -43,7 +43,7 @@ inline shared_ptr<T> Resources::Load(const wstring& key, const wstring& path)
 
 	shared_ptr<T> object = make_shared<T>();
 	object->Load(path);
-	KeyObjMap[key] = object;
+	keyObjMap[key] = object;
 
 	return object;
 }

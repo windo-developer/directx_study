@@ -1,4 +1,6 @@
 #pragma once
+
+
 class TableDescriptorHeap
 {
 public:
@@ -19,6 +21,7 @@ private:
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUHandle(uint8 reg);
 
 private:
+
 	ComPtr<ID3D12DescriptorHeap> _descHeap;
 	uint64					_handleSize = 0;
 	uint64					_groupSize = 0;
@@ -26,3 +29,4 @@ private:
 
 	uint32					_currentGroupIndex = 0;
 };
+

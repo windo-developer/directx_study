@@ -5,13 +5,15 @@
 
 Transform::Transform() : Component(COMPONENT_TYPE::TRANSFORM)
 {
+
 }
 
 Transform::~Transform()
 {
+
 }
 
-void Transform::FinallUpdate()
+void Transform::FinalUpdate()
 {
 	Matrix matScale = Matrix::CreateScale(_localScale);
 	Matrix matRotation = Matrix::CreateRotationX(_localRotation.x);

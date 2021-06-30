@@ -7,11 +7,11 @@ public:
 	Transform();
 	virtual ~Transform();
 
-	virtual void FinallUpdate() override;
+	virtual void FinalUpdate() override;
 	void PushData();
 
 public:
-	// Parent 기준 좌표
+	// Parent 기준
 	const Vec3& GetLocalPosition() { return _localPosition; }
 	const Vec3& GetLocalRotation() { return _localRotation; }
 	const Vec3& GetLocalScale() { return _localScale; }
@@ -32,13 +32,14 @@ public:
 	weak_ptr<Transform> GetParent() { return _parent; }
 
 private:
-	// Parent 기준 좌표
+	// Parent 기준
 	Vec3 _localPosition = {};
 	Vec3 _localRotation = {};
 	Vec3 _localScale = { 1.f, 1.f, 1.f };
 
-	Matrix _matLocal = {};
+	Matrix _matLocal= {};
 	Matrix _matWorld = {};
 
 	weak_ptr<Transform> _parent;
 };
+

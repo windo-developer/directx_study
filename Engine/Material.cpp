@@ -4,18 +4,20 @@
 
 Material::Material() : Object(OBJECT_TYPE::MATERIAL)
 {
+
 }
 
 Material::~Material()
 {
+
 }
 
 void Material::PushData()
 {
-	// CBV Upload
+	// CBV 업로드
 	CONST_BUFFER(CONSTANT_BUFFER_TYPE::MATERIAL)->PushData(&_params, sizeof(_params));
 
-	// SRV Upload
+	// SRV 업로드
 	for (size_t i = 0; i < _textures.size(); i++)
 	{
 		if (_textures[i] == nullptr)
@@ -25,5 +27,6 @@ void Material::PushData()
 		GEngine->GetTableDescHeap()->SetSRV(_textures[i]->GetCpuHandle(), reg);
 	}
 
+	// 파이프라인 세팅
 	_shader->Update();
 }

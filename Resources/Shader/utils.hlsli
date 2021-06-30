@@ -30,7 +30,7 @@ LightColor CalculateLightColor(int lightIndex, float3 viewNormal, float3 viewPos
 		if (g_light[lightIndex].range == 0.f)
 			distanceRatio = 0.f;
 		else
-			distanceRatio = saturate(1.f-pow(dist / g_light[lightIndex].range, 2));
+			distanceRatio = saturate(1.f - pow(dist / g_light[lightIndex].range, 2));
 	}
 	else
 	{
@@ -49,7 +49,7 @@ LightColor CalculateLightColor(int lightIndex, float3 viewNormal, float3 viewPos
 			float3 viewCenterLightDir = normalize(mul(float4(g_light[lightIndex].direction.xyz, 0.f), g_matView).xyz);
 			
 			float centerDist = dot(viewLightVec, viewCenterLightDir);
-			distanceRatio = saturate(1.f - centerDist / g_light[lightIndex].range);
+            distanceRatio = saturate(1.f - centerDist / g_light[lightIndex].range);
 			
 			float lightAngle = acos(dot(normalize(viewLightVec), viewCenterLightDir));
 			

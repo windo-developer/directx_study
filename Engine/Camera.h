@@ -13,7 +13,7 @@ public:
 	Camera();
 	virtual ~Camera();
 
-	virtual void FinallUpdate() override;
+	virtual void FinalUpdate() override;
 	void Render();
 
 private:
@@ -28,7 +28,7 @@ private:
 	Matrix _matProjection = {};
 
 public:
-	// Temp
+	// TEMP
 	static Matrix S_MatView;
 	static Matrix S_MatProjection;
 };

@@ -2,6 +2,7 @@
 
 class GameObject;
 
+
 class Scene
 {
 public:
@@ -9,15 +10,14 @@ public:
 	void Start();
 	void Update();
 	void LateUpdate();
-	void FinallUpdate();
+	void FinalUpdate();
 
 	void Render();
-
 private:
 	void PushLightData();
 
 public:
-	void AddGameObejct(shared_ptr<GameObject> gameObject);
+	void AddGameObject(shared_ptr<GameObject> gameObject);
 	void RemoveGameObject(shared_ptr<GameObject> gameObject);
 
 	const vector<shared_ptr<GameObject>>& GetGameObjects() { return _gameObjects; }
@@ -25,3 +25,4 @@ public:
 private:
 	vector<shared_ptr<GameObject>> _gameObjects;
 };
+

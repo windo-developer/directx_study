@@ -1,4 +1,6 @@
 #pragma once
+
+
 class Timer
 {
 	DECLARE_SINGLE(Timer);

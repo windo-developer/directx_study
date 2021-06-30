@@ -7,13 +7,14 @@ enum class COMPONENT_TYPE : uint8
 	MESH_RENDERER,
 	CAMERA,
 	LIGHT,
+	// ...
 	MONO_BEHAVIOUR,
 	END,
 };
 
 enum
 {
-	FIXED_COMPOENT_COUNT = static_cast<uint8>(COMPONENT_TYPE::END) - 1
+	FIXED_COMPONENT_COUNT = static_cast<uint8>(COMPONENT_TYPE::END) - 1
 };
 
 class GameObject;
@@ -26,11 +27,11 @@ public:
 	virtual ~Component();
 
 public:
-	virtual void Awake() {}
-	virtual void Start() {}
-	virtual void Update() {}
-	virtual void LateUpdate() {}
-	virtual void FinallUpdate() {}
+	virtual void Awake() { }
+	virtual void Start() { }
+	virtual void Update() { }
+	virtual void LateUpdate() { }
+	virtual void FinalUpdate() { }
 
 public:
 	COMPONENT_TYPE GetType() { return _type; }
@@ -47,3 +48,4 @@ protected:
 	COMPONENT_TYPE _type;
 	weak_ptr<GameObject> _gameObject;
 };
+

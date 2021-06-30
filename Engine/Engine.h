@@ -14,6 +14,7 @@
 class Engine
 {
 public:
+
 	void Init(const WindowInfo& info);
 	void Update();
 
@@ -38,18 +39,20 @@ public:
 private:
 	void ShowFps();
 	void CreateConstantBuffer(CBV_REGISTER reg, uint32 bufferSize, uint32 count);
-private:
-	// window size
-	WindowInfo			_window;
-	D3D12_VIEWPORT		_viewport = {};
-	D3D12_RECT			_scissorRect = {};
 
-	shared_ptr<Device> _device;
-	shared_ptr<CommandQueue> _cmdQueue;
-	shared_ptr<SwapChain> _swapChain;
-	shared_ptr<RootSignature> _rootSignature;
-	shared_ptr<TableDescriptorHeap> _tableDescHeap;
-	shared_ptr<DepthStencilBuffer> _depthStencilBuffer;
+private:
+	// 그려질 화면 크기 관련
+	WindowInfo		_window;
+	D3D12_VIEWPORT	_viewport = {};
+	D3D12_RECT		_scissorRect = {};
+
+	shared_ptr<Device> _device = make_shared<Device>();
+	shared_ptr<CommandQueue> _cmdQueue = make_shared<CommandQueue>();
+	shared_ptr<SwapChain> _swapChain = make_shared<SwapChain>();
+	shared_ptr<RootSignature> _rootSignature = make_shared<RootSignature>();
+	shared_ptr<TableDescriptorHeap> _tableDescHeap = make_shared<TableDescriptorHeap>();
+	shared_ptr<DepthStencilBuffer> _depthStencilBuffer = make_shared<DepthStencilBuffer>();
 
 	vector<shared_ptr<ConstantBuffer>> _constantBuffers;
 };
+

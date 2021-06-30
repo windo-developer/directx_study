@@ -38,11 +38,11 @@ void Scene::LateUpdate()
 	}
 }
 
-void Scene::FinallUpdate()
+void Scene::FinalUpdate()
 {
 	for (const shared_ptr<GameObject>& gameObject : _gameObjects)
 	{
-		gameObject->FinallUpdate();
+		gameObject->FinalUpdate();
 	}
 }
 
@@ -77,14 +77,14 @@ void Scene::PushLightData()
 	CONST_BUFFER(CONSTANT_BUFFER_TYPE::GLOBAL)->SetGlobalData(&lightParams, sizeof(lightParams));
 }
 
-void Scene::AddGameObejct(shared_ptr<GameObject> gameObject)
+void Scene::AddGameObject(shared_ptr<GameObject> gameObject)
 {
 	_gameObjects.push_back(gameObject);
 }
 
 void Scene::RemoveGameObject(shared_ptr<GameObject> gameObject)
 {
-	auto findIt = find(_gameObjects.begin(), _gameObjects.end(), gameObject);
+	auto findIt = std::find(_gameObjects.begin(), _gameObjects.end(), gameObject);
 	if (findIt != _gameObjects.end())
 	{
 		_gameObjects.erase(findIt);

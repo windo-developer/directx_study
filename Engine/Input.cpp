@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Input.h"
-#include "Engine.h"
+
 
 void Input::Init(HWND hwnd)
 {
@@ -19,18 +19,18 @@ void Input::Update()
 		return;
 	}
 
-	BYTE ascilKeys[KEY_TYPE_COUNT] = {};
-	if (::GetKeyboardState(ascilKeys) == false)
+	BYTE asciiKeys[KEY_TYPE_COUNT] = {};
+	if (::GetKeyboardState(asciiKeys) == false)
 		return;
 
 	for (uint32 key = 0; key < KEY_TYPE_COUNT; key++)
 	{
-		// 키가 눌려져 있으면 True
-		if (ascilKeys[key] & 0x80)
+		// 키가 눌려 있으면 true
+		if (asciiKeys[key] & 0x80)
 		{
 			KEY_STATE& state = _states[key];
 
-			// 이전 프레임에 key를 누른 상태라면 Press
+			// 이전 프레임에 키를 누른 상태라면 PRESS
 			if (state == KEY_STATE::PRESS || state == KEY_STATE::DOWN)
 				state = KEY_STATE::PRESS;
 			else
@@ -40,7 +40,7 @@ void Input::Update()
 		{
 			KEY_STATE& state = _states[key];
 
-			// 이전 프레임에 key를 누른 상태라면 Up
+			// 이전 프레임에 키를 누른 상태라면 UP
 			if (state == KEY_STATE::PRESS || state == KEY_STATE::DOWN)
 				state = KEY_STATE::UP;
 			else
