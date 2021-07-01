@@ -3,7 +3,6 @@
 
 class Material;
 
-// [유니티짱]과 같이 정점으로 이루어진 물체
 class Mesh : public Object
 {
 public:
@@ -26,4 +25,3 @@ private:
 	D3D12_INDEX_BUFFER_VIEW		_indexBufferView;
 	uint32 _indexCount = 0;
 };
-

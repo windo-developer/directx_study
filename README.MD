@@ -47,7 +47,8 @@ https://github.com/microsoft/DirectXTK12
 - [✔] Object manage
 
 ## Lighting 
-- [] Light Render
+- [✔] Light Render
+- [✔] Normal Mapping
 - [] Skybox 
 
 ## Render

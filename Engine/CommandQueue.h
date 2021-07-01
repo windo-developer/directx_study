@@ -31,7 +31,6 @@ private:
 	ComPtr<ID3D12CommandAllocator>		_resCmdAlloc;
 	ComPtr<ID3D12GraphicsCommandList>	_resCmdList;
 
-	// Fence : 울타리(?)
 	// CPU / GPU 동기화를 위한 간단한 도구
 	ComPtr<ID3D12Fence>					_fence;
 	uint32								_fenceValue = 0;
@@ -39,4 +38,3 @@ private:
 
 	shared_ptr<SwapChain>		_swapChain;
 };
-
