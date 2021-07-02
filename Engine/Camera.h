@@ -1,5 +1,7 @@
 #pragma once
+
 #include "Component.h"
+#include "Frustum.h"
 
 enum class PROJECTION_TYPE
 {
@@ -27,9 +29,10 @@ private:
 	Matrix _matView = {};
 	Matrix _matProjection = {};
 
+	Frustum _frustum;
+
 public:
 	// TEMP
 	static Matrix S_MatView;
 	static Matrix S_MatProjection;
 };
-
