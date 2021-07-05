@@ -18,6 +18,18 @@ public:
 	virtual void FinalUpdate() override;
 	void Render();
 
+	void SetCullingMaskLayerOnOff(uint8 layer, bool on)
+	{
+		if (on)
+			_cullingMask |= (1 << layer);
+		else
+			_cullingMask &= ~(1 << layer);
+	}
+
+	void SetCullingMask(uint32 mask) { _cullingMask = mask; }
+	void SetCullingMaskAll() { SetCullingMask(UINT32_MAX); } // 전부 마스크
+	bool IsCulled(uint8 layer) { return (_cullingMask & (1 << layer)) != 0; }
+
 private:
 	PROJECTION_TYPE _type = PROJECTION_TYPE::PERSPECTIVE;
 
@@ -30,6 +42,7 @@ private:
 	Matrix _matProjection = {};
 
 	Frustum _frustum;
+	uint32 _cullingMask = 0;
 
 public:
 	// TEMP
