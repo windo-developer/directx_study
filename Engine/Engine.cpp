@@ -6,10 +6,11 @@
 #include "Timer.h"
 #include "SceneManager.h"
 #include "Light.h"
+#include "Resources.h"
 
 void Engine::Init(const WindowInfo& info)
 {
-	_window = info;	
+	_window = info;
 
 	// 그려질 화면 크기를 설정
 	_viewport = { 0, 0, static_cast<FLOAT>(info.width), static_cast<FLOAT>(info.height), 0.0f, 1.0f };
@@ -30,6 +31,7 @@ void Engine::Init(const WindowInfo& info)
 
 	GET_SINGLE(Input)->Init(info.hwnd);
 	GET_SINGLE(Timer)->Init();
+	GET_SINGLE(Resources)->Init();
 }
 
 void Engine::Update()

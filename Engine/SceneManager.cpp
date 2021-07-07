@@ -62,15 +62,40 @@ uint8 SceneManager::LayerNameToIndex(const wstring& name)
 
 shared_ptr<Scene> SceneManager::LoadTestScene()
 {
+#pragma region LayerMask
+	SetLayerName(0, L"Default");
+	SetLayerName(1, L"UI");
+#pragma endregion
+
 	shared_ptr<Scene> scene = make_shared<Scene>();
 
 #pragma region Camera
-	shared_ptr<GameObject> camera = make_shared<GameObject>();
-	camera->AddComponent(make_shared<Transform>());
-	camera->AddComponent(make_shared<Camera>()); // Near=1, Far=1000, FOV=45µµ
-	camera->AddComponent(make_shared<TestCameraScript>());
-	camera->GetTransform()->SetLocalPosition(Vec3(0.f, 0.f, 0.f));
-	scene->AddGameObject(camera);
+	{
+		shared_ptr<GameObject> camera = make_shared<GameObject>();
+		camera->SetName(L"Main_Camera");
+		camera->AddComponent(make_shared<Transform>());
+		camera->AddComponent(make_shared<Camera>()); // Near=1, Far=1000, FOV=45µµ
+		camera->AddComponent(make_shared<TestCameraScript>());
+		camera->GetTransform()->SetLocalPosition(Vec3(0.f, 0.f, 0.f));
+		uint8 layerIndex = GET_SINGLE(SceneManager)->LayerNameToIndex(L"UI");
+		camera->GetCamera()->SetCullingMaskLayerOnOff(layerIndex, true);	// UI Masking
+		scene->AddGameObject(camera);
+	}
+#pragma endregion
+
+#pragma region UI_Camera
+	{
+		shared_ptr<GameObject> camera = make_shared<GameObject>();
+		camera->SetName(L"Orthographic_Camera");
+		camera->AddComponent(make_shared<Transform>());
+		camera->AddComponent(make_shared<Camera>()); // Near=1, Far=1000
+		camera->GetTransform()->SetLocalPosition(Vec3(0.f, 0.f, 0.f));
+		camera->GetCamera()->SetprojectionType(PROJECTION_TYPE::ORTHOGRAPHIC);
+		uint8 layerIndex = GET_SINGLE(SceneManager)->LayerNameToIndex(L"UI");
+		camera->GetCamera()->SetCullingMaskAll();	// All Object Masking
+		camera->GetCamera()->SetCullingMaskLayerOnOff(layerIndex, false);	// UI on
+		scene->AddGameObject(camera);
+	}
 #pragma endregion
 
 #pragma region SkyBox
@@ -83,10 +108,8 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		shared_ptr<Mesh> sphereMesh = GET_SINGLE(Resources)->LoadSphereMesh();
 		meshRenderer->SetMesh(sphereMesh);
 
-		shared_ptr<Shader> shader = make_shared<Shader>();
-		shared_ptr<Texture> texture = make_shared<Texture>();
-		shader->Init(L"..\\Resources\\Shader\\skybox.fx", { RASTERIZER_TYPE::CULL_NONE, DEPTH_STENCIL_TYPE::LESS_EQUAL });
-		texture->Init(L"..\\Resources\\Texture\\skybox.jpg");
+		shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Skybox");
+		shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"Skybox", L"..\\Resources\\Texture\\skybox2.png");
 		shared_ptr<Material> material = make_shared<Material>();
 		material->SetShader(shader);
 		material->SetTexture(0, texture);
@@ -135,12 +158,9 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			meshRenderer->SetMesh(sphereMesh);
 		}
 		{
-			shared_ptr<Shader> shader = make_shared<Shader>();
-			shared_ptr<Texture> texture = make_shared<Texture>();
-			shared_ptr<Texture> texture2 = make_shared<Texture>();
-			shader->Init(L"..\\Resources\\Shader\\default.fx");
-			texture->Init(L"..\\Resources\\Texture\\Leather.jpg");
-			texture2->Init(L"..\\Resources\\Texture\\Leather_Normal.jpg");
+			shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Forward");
+			shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"Leather", L"..\\Resources\\Texture\\Leather.jpg");
+			shared_ptr<Texture> texture2 = GET_SINGLE(Resources)->Load<Texture>(L"Leather_Normal", L"..\\Resources\\Texture\\Leather_Normal.jpg");
 			shared_ptr<Material> material = make_shared<Material>();
 			material->SetShader(shader);
 			material->SetTexture(0, texture);
@@ -150,6 +170,28 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		sphere->AddComponent(meshRenderer);
 		scene->AddGameObject(sphere);
 	}
+#pragma endregion
+
+#pragma region UI_Test
+	shared_ptr<GameObject> sphere = make_shared<GameObject>();
+	sphere->SetLayerIndex(GET_SINGLE(SceneManager)->LayerNameToIndex(L"UI"));
+	sphere->AddComponent(make_shared<Transform>());
+	sphere->GetTransform()->SetLocalPosition(Vec3(0, 0, 500.f));
+	sphere->GetTransform()->SetLocalScale(Vec3(100.f, 100.f, 100.f));
+
+	shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
+	shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->LoadRectangleMesh();
+	meshRenderer->SetMesh(mesh);
+
+	shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Forward");
+	shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"Leather", L"..\\Resources\\Texture\\Leather.jpg");
+	shared_ptr<Material> material = make_shared<Material>();
+	material->SetShader(shader);
+	material->SetTexture(0, texture);
+	meshRenderer->SetMaterial(material);
+
+	sphere->AddComponent(meshRenderer);
+	scene->AddGameObject(sphere);
 #pragma endregion
 
 #pragma region Green Directional Light

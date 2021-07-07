@@ -18,6 +18,9 @@ public:
 	virtual void FinalUpdate() override;
 	void Render();
 
+	void SetprojectionType(PROJECTION_TYPE type) { _type = type; }
+	PROJECTION_TYPE GetProjectionType() { return _type; }
+
 	void SetCullingMaskLayerOnOff(uint8 layer, bool on)
 	{
 		if (on)
