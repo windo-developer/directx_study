@@ -1,3 +1,13 @@
+/*
+//////////////////////////////
+
+이제 사용하지 않습니다.
+Texture가 DepthStencilBuffer 정보를 함께 담습니다.
+DepthStencil은 Engine.cpp의 CreateRenderTargetGroups에서 만들어집니다.
+
+//////////////////////////////
+*/
+
 #include "pch.h"
 #include "DepthStencilBuffer.h"
 #include "Engine.h"

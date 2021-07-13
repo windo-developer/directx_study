@@ -1,5 +1,13 @@
 #pragma once
 
+/*
+//////////////////////////////
+
+이제 사용하지 않습니다.
+Texture가 DepthStencilBuffer 정보를 함께 담습니다.
+
+//////////////////////////////
+*/
 
 class DepthStencilBuffer
 {
@@ -16,4 +24,3 @@ private:
 	D3D12_CPU_DESCRIPTOR_HANDLE			_dsvHandle = {};
 	DXGI_FORMAT							_dsvFormat = {};
 };
-
