@@ -248,6 +248,7 @@ void Resources::CreateDefaultShader()
 	{
 		ShaderInfo info =
 		{
+			SHADER_TYPE::FORWARD,
 			RASTERIZER_TYPE::CULL_NONE,
 			DEPTH_STENCIL_TYPE::LESS_EQUAL,
 		};
@@ -256,10 +257,22 @@ void Resources::CreateDefaultShader()
 		Add<Shader>(L"Skybox", shader);
 	}
 
+	// Deferred
+	{
+		ShaderInfo info =
+		{
+			SHADER_TYPE::DEFERRED,
+		};
+		shared_ptr<Shader> shader = make_shared<Shader>();
+		shader->Init(L"..\\Resources\\Shader\\forward.fx", info);
+		Add<Shader>(L"Deferred", shader);
+	}
+
 	// Forward
 	{
 		ShaderInfo info =
 		{
+			SHADER_TYPE::FORWARD,
 		};
 		shared_ptr<Shader> shader = make_shared<Shader>();
 		shader->Init(L"..\\Resources\\Shader\\forward.fx", info);

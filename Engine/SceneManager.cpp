@@ -158,7 +158,7 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 			meshRenderer->SetMesh(sphereMesh);
 		}
 		{
-			shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Forward");
+			shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Deferred");
 			shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"Leather", L"..\\Resources\\Texture\\Leather.jpg");
 			shared_ptr<Texture> texture2 = GET_SINGLE(Resources)->Load<Texture>(L"Leather_Normal", L"..\\Resources\\Texture\\Leather_Normal.jpg");
 			shared_ptr<Material> material = make_shared<Material>();
@@ -173,25 +173,31 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 #pragma endregion
 
 #pragma region UI_Test
-	shared_ptr<GameObject> sphere = make_shared<GameObject>();
-	sphere->SetLayerIndex(GET_SINGLE(SceneManager)->LayerNameToIndex(L"UI"));
-	sphere->AddComponent(make_shared<Transform>());
-	sphere->GetTransform()->SetLocalPosition(Vec3(0, 0, 500.f));
-	sphere->GetTransform()->SetLocalScale(Vec3(100.f, 100.f, 100.f));
+	for (int32 i = 0; i < 3; i++)
+	{
+		shared_ptr<GameObject> sphere = make_shared<GameObject>();
+		sphere->SetLayerIndex(GET_SINGLE(SceneManager)->LayerNameToIndex(L"UI"));
+		sphere->AddComponent(make_shared<Transform>());
+		sphere->GetTransform()->SetLocalPosition(Vec3(0, 0, 500.f));
+		sphere->GetTransform()->SetLocalScale(Vec3(100.f, 100.f, 100.f));
 
-	shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
-	shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->LoadRectangleMesh();
-	meshRenderer->SetMesh(mesh);
+		shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
+		{
+			shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->LoadRectangleMesh();
+			meshRenderer->SetMesh(mesh);
+		}
 
-	shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Forward");
-	shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"Leather", L"..\\Resources\\Texture\\Leather.jpg");
-	shared_ptr<Material> material = make_shared<Material>();
-	material->SetShader(shader);
-	material->SetTexture(0, texture);
-	meshRenderer->SetMaterial(material);
-
-	sphere->AddComponent(meshRenderer);
-	scene->AddGameObject(sphere);
+		{
+			shared_ptr<Shader> shader = GET_SINGLE(Resources)->Get<Shader>(L"Forward");
+			shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(L"Leather", L"..\\Resources\\Texture\\Leather.jpg");
+			shared_ptr<Material> material = make_shared<Material>();
+			material->SetShader(shader);
+			material->SetTexture(0, texture);
+			meshRenderer->SetMaterial(material);
+		}
+		sphere->AddComponent(meshRenderer);
+		scene->AddGameObject(sphere);
+	}
 #pragma endregion
 
 #pragma region Green Directional Light

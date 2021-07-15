@@ -1,17 +1,17 @@
 #pragma once
 #include "Texture.h"
 
-enum class MULTIPLE_RENDER_TARGET_TYPE : uint8
+enum class RENDER_TARGET_GROUP_TYPE : uint8
 {
-	SWAP_CHAIN,
-	G_BUFFER,
+	SWAP_CHAIN, // BACK_BUFFER, FRONT_BUFFER
+	G_BUFFER, // POSITION, NORMAL, COLOR
 	END,
 };
 
 enum
 {
 	RENDER_TARGET_G_BUFFER_GROUP_MEMBER_COUNT = 3,
-	RENDER_TARGET_GROUP_COUNT = static_cast<uint8>(MULTIPLE_RENDER_TARGET_TYPE::END),
+	RENDER_TARGET_GROUP_COUNT = static_cast<uint8>(RENDER_TARGET_GROUP_TYPE::END)
 };
 
 struct RenderTarget
@@ -23,7 +23,7 @@ struct RenderTarget
 class MultipleRenderTarget
 {
 public:
-	void Create(MULTIPLE_RENDER_TARGET_TYPE groupType, vector<RenderTarget>& rtVec, shared_ptr<Texture> dsTexture);
+	void Create(RENDER_TARGET_GROUP_TYPE groupType, vector<RenderTarget>& rtVec, shared_ptr<Texture> dsTexture);
 
 	void OMSetRenderTargets(uint32 count, uint32 offset);
 	void OMSetRenderTargets();
@@ -35,7 +35,7 @@ public:
 	shared_ptr<Texture> GetDSTexture() { return _dsTexture; }
 
 private:
-	MULTIPLE_RENDER_TARGET_TYPE		_groupType;
+	RENDER_TARGET_GROUP_TYPE		_groupType;
 	vector<RenderTarget>			_rtVec;
 	uint32							_rtCount;
 	shared_ptr<Texture>				_dsTexture;
@@ -46,4 +46,3 @@ private:
 	D3D12_CPU_DESCRIPTOR_HANDLE		_rtvHeapBegin;
 	D3D12_CPU_DESCRIPTOR_HANDLE		_dsvHeapBegin;
 };
-

@@ -28,7 +28,7 @@ public:
 	// shared_ptr<DepthStencilBuffer> GetDepthStencilBuffer() { return _depthStencilBuffer; }
 
 	shared_ptr<ConstantBuffer> GetConstantBuffer(CONSTANT_BUFFER_TYPE type) { return _constantBuffers[static_cast<uint8>(type)]; }
-	shared_ptr<MultipleRenderTarget> GetRTGroup(MULTIPLE_RENDER_TARGET_TYPE type) { return _rtGroups[static_cast<uint8>(type)]; }
+	shared_ptr<MultipleRenderTarget> GetRTGroup(RENDER_TARGET_GROUP_TYPE type) { return _rtGroups[static_cast<uint8>(type)]; }
 
 public:
 	void Render();
@@ -40,7 +40,7 @@ public:
 private:
 	void ShowFps();
 	void CreateConstantBuffer(CBV_REGISTER reg, uint32 bufferSize, uint32 count);
-	void CreateRenderTargetGroups();
+	void CreateMultipleRenderTargets();
 
 private:
 	// 그려질 화면 크기 관련
